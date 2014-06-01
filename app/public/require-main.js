@@ -58,6 +58,8 @@ require(['socket.io', 'jquery', 'jquery-ui', 'bootstrap'],
             if (tweet['time_zone']) {
               result = result + " :: " + tweet['time_zone'];
             }
+            result = result + " [" + tweet['coordinates']['coordinates'][0] +
+                    "," + tweet['coordinates']['coordinates'][1] + "]";
             result = result + "</h3>";
             result = result + data.html;
             $("#tweets" ).prepend(result);
