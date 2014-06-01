@@ -4,6 +4,8 @@ var _ = require('underscore');
 var gracefulshutdown = require('./gracefulshutdown');
 
 var db_name = "lahack";
+var TWEET_COLLECTION = "tweets"
+
 var local_connection = "mongodb://127.0.0.1:27017/" + db_name;
 var connection = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || local_connection;
 
@@ -38,4 +40,4 @@ var insertDocIntoCollection = function(collection) {
 
 module.exports.insertDocument = insertDocument;
 module.exports.insertDocIntoCollection = insertDocIntoCollection;
-
+module.exports.TWEET_COLLECTION = TWEET_COLLECTION

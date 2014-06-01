@@ -34,4 +34,7 @@ server.listen(app.get('port'));
 console.log('listening on port ' + app.get('port'));
 
 
+var NE = {latitude: 34.8233, longitude: -117.6462};
+var SW = {latitude: 32.8007, longitude: -118.9448};
+
 

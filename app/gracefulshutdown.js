@@ -45,12 +45,6 @@ process.on('SIGTERM', function() {
   gracefulShutdown();
 });
 
-process.on('uncaughtException', function(err) {
-  console.log('Uncaught exception');
-  logError(err);
-  gracefulShutdown();
-});
-
 
 module.exports.addShutdownCallback = addShutdownCallback;
 module.exports.gracefulShutdown = gracefulShutdown;
