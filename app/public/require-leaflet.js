@@ -68,10 +68,23 @@ require(['socket.io', 'jquery', 'leaflet', 'esri-leaflet', 'jquery-ui', 'bootstr
       return "<a target='_blank' href='https://twitter.com/" + username.trim() + " /statuses/" + id + "'>" + text + "</a>";
     }
 
+    var notEnglish = function(desc) {
+      return desc !== 'English';
+    }
+
+    var getLanguageDisplay = function(tweet) {
+      var descriptions = [];
+      if (notEnglish(tweet['tweet_lang'])) {
+        descriptions.push("T: " + tweet['tweet_lang']);
+      }
+      if (notEnglish(tweet['user_lang'])) {
+        descriptions.push("U: " + tweet['user_lang']);
+      }
+      return descriptions.join(' / ');
+    }
+
     var popupText = function(tweet) {
-      var result = "<b>";
-      result = result + tweet['tweet_lang'] + "/" + tweet['user_lang'];
-      result = result + "</b><br/>";
+      var result = "<b>" + getLanguageDisplay(tweet) + "</b><br/>";
       result = result + tweet['text'] + "<br/>";
       result = result + getStatusLink(tweet['screen_name'], tweet['id_str'], tweet['screen_name']);
       return result;

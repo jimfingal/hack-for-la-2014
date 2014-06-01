@@ -10,7 +10,7 @@ var twitterstream = require('./twitterstream');
 var mongohelper = require('./mongohelper');
 var geohelper = require('./geohelper');
 var lastream = require('./lastream');
-
+var languagehelper = require('./languagehelper');
 
 var app = express();
 
@@ -36,12 +36,25 @@ var server = http.createServer(app);
 var serverio = io.listen(server).set('log level', 2);
 
 
+var descriptionOrCode = function(code) {
+  
+  var desc = languagehelper.getDescriptionFromCode(code);
+
+  if (desc) {
+    return desc;
+  } else {
+    return code;
+  }
+
+}
+
+
 var minnifyTweet = function(tweet) {
  
   var abbreviatedTweet = _.pick(tweet, "id_str", "text");
   abbreviatedTweet['latlng'] = [tweet.coordinates.coordinates[1], tweet.coordinates.coordinates[0]];
-  abbreviatedTweet['tweet_lang'] = tweet.lang;
-  abbreviatedTweet['user_lang'] = tweet.user.lang;
+  abbreviatedTweet['tweet_lang'] = descriptionOrCode(tweet.lang);
+  abbreviatedTweet['user_lang'] = descriptionOrCode(tweet.user.lang);
   abbreviatedTweet['time_zone'] = tweet.user.time_zone;
   abbreviatedTweet['screen_name'] = tweet.user.screen_name;
   return abbreviatedTweet;
