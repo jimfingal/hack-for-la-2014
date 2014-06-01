@@ -14,7 +14,8 @@ The focus of this project is to explore the possiblities of real-time local visu
 * How do languages used on twitter correlate with census data on language spoken in the home?
 * What languages do visitors use, vs. locals?
 * How does language use correspond to local socio-economic trends or other demographic data?
-* Map data is sourced from Esri, using the Esri Leaflet plugin.
+ 
+Map data is sourced from Esri, using the Esri Leaflet plugin.
 
 Linguistic data is sourced from Twitter, and is embedded within Tweets that are accessed via the Twitter API. The server subscribes to all tweets within the bounding box of Los Angeles, and filters to only store/display Tweets that either are tagged as in a language other than English, or whose users are configured as having a native language other than English.
 
