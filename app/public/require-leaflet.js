@@ -31,6 +31,7 @@ require.config({
           deps: ['leaflet']
         },
     },
+    'waitSeconds' : 0
 });
 
 
