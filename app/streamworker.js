@@ -13,17 +13,6 @@ var insideBox = function(tweet, box) {
   return geolib.isPointInside(tweet_geo, box);
 }
 
-var notEnOrUnd = function(lang) {
-    return lang !== "en" && lang !== "und";
-};
-
-var tweetOtherThanEnglish = function(tweet) {
-
-    var user_lang = tweet.user.lang;
-    var tweet_lang = tweet.lang
-
-    return notEnOrUnd(user_lang) || notEnOrUnd(tweet_lang);
-};
 
 var getTweetDescription = function(tweet) {
       var msg = "Tweet [" + tweet.id + "] TL: " + tweet.user.lang + "; UL: " + tweet.lang;
@@ -34,8 +23,12 @@ var getTweetDescription = function(tweet) {
 
 
 var printGeoData = function(tweet) { 
-  if (tweet.coordinates && insideBox(tweet, lastream.bounding_box) && tweetOtherThanEnglish(tweet)) {
+  if (tweet.coordinates && 
+      insideBox(tweet, lastream.bounding_box) && 
+      lastream.tweetOtherThanEnglish(tweet)) {
+      
       console.log(getTweetDescription(tweet));
+  
   }
 };
 

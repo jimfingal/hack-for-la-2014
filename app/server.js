@@ -5,7 +5,12 @@ var express = require('express'),
   request = require('request'),
   _ = require('underscore'),
   io = require('socket.io');
-var geolib = require('geolib');
+
+var twitterstream = require('./twitterstream');
+var mongohelper = require('./mongohelper');
+var geohelper = require('./geohelper');
+var lastream = require('./lastream');
+
 
 var app = express();
 
@@ -37,4 +42,33 @@ console.log('listening on port ' + app.get('port'));
 var NE = {latitude: 34.8233, longitude: -117.6462};
 var SW = {latitude: 32.8007, longitude: -118.9448};
 
+var minnifyTweet = function(tweet) {
+ 
+  var abbreviatedTweet = _.pick(tweet, "id_str", "coordinates");
+
+  abbreviatedTweet['tweet_lang'] = tweet.lang;
+  abbreviatedTweet['user_lang'] = tweet.user.lang;
+  abbreviatedTweet['time_zone'] = tweet.user.time_zone;
+
+  return abbreviatedTweet;
+};
+
+var broadcastTweet = function(tweet) {
+
+  var smallerTweet = minnifyTweet(tweet);
+  serverio.sockets.emit('tweet', smallerTweet);
+
+};
+
+
+var handleIncomingTweet = function(tweet) {
+  if (lastream.tweetOtherThanEnglish(tweet)) {
+    console.log("Got Tweet: " + tweet.id_str);
+    mongohelper.insertDocument(mongohelper.TWEET_COLLECTION, tweet);
+    broadcastTweet(tweet);
+  }
+};
+
+var stream_options = { locations: geohelper.getLocationFromCoords(SW, NE) };
+var stream = twitterstream.getStream(stream_options, handleIncomingTweet);
 

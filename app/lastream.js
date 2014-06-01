@@ -16,6 +16,19 @@ var getLAStream = function(handler) {
     return stream;
 };
 
+var notEnOrUnd = function(lang) {
+    return lang !== "en" && lang !== "und";
+};
 
-module.exports.getLAStream = getLAStream
-module.exports.bounding_box = la_box
+var tweetOtherThanEnglish = function(tweet) {
+
+    var user_lang = tweet.user.lang;
+    var tweet_lang = tweet.lang
+
+    return notEnOrUnd(user_lang) || notEnOrUnd(tweet_lang);
+};
+
+
+module.exports.getLAStream = getLAStream;
+module.exports.bounding_box = la_box;
+module.exports.tweetOtherThanEnglish = tweetOtherThanEnglish;

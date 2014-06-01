@@ -35,5 +35,34 @@ require(['socket.io', 'jquery', 'jquery-ui', 'bootstrap'],
      console.log('Socket connected.');
     });
 
+
+    var renderTweetToPage = function(tweet) {
+
+      $.ajax({
+          url: "https://api.twitter.com/1/statuses/oembed.json",
+          type: "GET",
+          // the name of the callback parameter, as specified by the YQL service
+          jsonp: "callback",
+          // tell jQuery we're expecting JSONP
+          dataType: "jsonp",
+ 
+          data: { 
+            id : tweet.id_str,
+            omit_script: "true"
+          },
+          // work with the response
+          success: function( data ) {
+            console.log(data);
+            $("#tweets" ).prepend(data.html);
+          }
+      });
+
+    };
+
+    
+    socket.on('tweet', function (tweet) {
+      renderTweetToPage(tweet);
+    });
+
 });
 
