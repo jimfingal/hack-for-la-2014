@@ -15,3 +15,15 @@ MongoClient.connect(connection, function(err, db) {
   });
 });
 
+MongoClient.connect(connection, function(err, db) {
+  if(err) throw err;
+  db.collection(TWEET_COLLECTION).group(
+        ['lang'],
+        {},
+        { "count": 0 },
+        "function( curr, result ) { result.count++; }", 
+        function(err, results) {
+            if(err) throw err;
+            console.log(results);
+        });
+});
