@@ -65,7 +65,7 @@ require(['socket.io', 'jquery', 'leaflet', 'esri-leaflet', 'jquery-ui', 'bootstr
     var last_marker;
 
     var getStatusLink = function(username, id, text) {
-      return "<a href='https://twitter.com/" + username.trim() + " /statuses/" + id + "'>" + text + "</a>";
+      return "<a target='_blank' href='https://twitter.com/" + username.trim() + " /statuses/" + id + "'>" + text + "</a>";
     }
 
     var popupText = function(tweet) {
