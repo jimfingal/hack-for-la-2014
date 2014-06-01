@@ -18,8 +18,15 @@ var logError = function(err) {
 };
 
 
+var shuttingdown = false;
+
 var gracefulShutdown = function() {
 
+    if (shuttingdown) {
+        console.log("Blergh, already shutting down. Not shutting down twice");
+        return;
+    }
+    shuttingdown = true;
     console.log("Received kill signal, shutting down gracefully.");
     console.error("Executing callbacks, closing after " + SECOND_WAIT + " seconds");
 

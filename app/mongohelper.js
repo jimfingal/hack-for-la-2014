@@ -13,11 +13,20 @@ var connection = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || local_co
 var MongoClient = require('mongodb').MongoClient;
 var db;
 
+var closed = false;
+
+var closeConnection = function() {
+    if (!closed) {
+        db.close();
+        closed = true;
+    }
+}
+
 // Initialize connection once
 MongoClient.connect(connection, function(err, database) {
   if(err) throw err;
   db = database;
-  gracefulshutdown.addShutdownCallback(db.close);
+  gracefulshutdown.addShutdownCallback(closeConnection);
 
 });
 

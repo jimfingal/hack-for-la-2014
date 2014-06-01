@@ -28,7 +28,14 @@ var getStream = function(stream_options, tweet_callback) {
     stream.on('warning', console.log);
     stream.on('disconnect', console.log);
 
-    gracefulshutdown.addShutdownCallback(stream.stop);
+    // Don't double-stop
+    var stop = function() {
+      if (stream.request) {
+        stream.stop();
+      }
+    }
+
+    gracefulshutdown.addShutdownCallback(stop);
 
 };
 
