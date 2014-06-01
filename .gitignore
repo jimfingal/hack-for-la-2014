@@ -5,4 +5,4 @@
 
 
 app/load_mongo*
-data/*
+untracked_data/*
