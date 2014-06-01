@@ -8,7 +8,8 @@ require.config({
       'twidgets' : 'lib/widgets',
       'leaflet': "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet",
       'esri-leaflet': "lib/esri-leaflet",
-
+      'underscore' : 'bower_components/underscore/underscore',
+      'tinycolor' : 'bower_components/tinycolor/tinycolor'
     },
     'shim': {
         'jquery': {
@@ -32,8 +33,10 @@ require.config({
     },
 });
 
-require(['socket.io', 'jquery', 'leaflet', 'esri-leaflet', 'jquery-ui', 'bootstrap', 'twidgets'],
-  function(io, $, L) {
+
+require(['socket.io', 'jquery', 'leaflet', 'underscore', 'tinycolor',
+          'esri-leaflet', 'jquery-ui', 'bootstrap', 'twidgets'],
+  function(io, $, L, _, tinycolor) {
 
     var loc = window.location;
     var url = location.protocol + '//' + location.hostname + ':' + location.port;
@@ -52,6 +55,45 @@ require(['socket.io', 'jquery', 'leaflet', 'esri-leaflet', 'jquery-ui', 'bootstr
 
     L.esri.basemapLayer("Topographic").addTo(map);
 
+    var language_count = {};
+    var code_to_color = {};
+
+    var sortedCounts = function() {
+      return _.sortBy(_.pairs(language_count), function(array) { return array[1]; }).reverse();
+    }
+
+    var refreshColors = function() {
+
+      var sorted_counts = sortedCounts(language_count);
+      var total = sorted_counts.length;
+
+      var i = 0;
+      _.each(sorted_counts, function(pair) {
+          i++;
+          var color = tinycolor("hsv " + ((i / total) * 360) + " 100 75").toHexString();
+          code_to_color[pair[0]] = color;
+      });
+
+    };
+
+    var refreshCounts = function() {
+      $.ajax({url: "/counts"}).done(function(data) {
+        language_count = data;
+        refreshColors();
+      });
+    }
+
+
+    var getLangColor = function(code) {
+      if(code_to_color[code]) {
+        return code_to_color[code];
+      } else {
+        return "#f03";
+      }
+    }
+
+
+    refreshCounts();
     /*
     L.esri.featureLayer("http://services3.arcgis.com/fVH6HoncLPR9JkHX/arcgis/rest/services/LA_Neighborhoods/FeatureServer/0?token=42vjHoSzm-ODU9McyevtW4P8nfjvX8O-njT9WvWgh3y12LafHNo-K42p0TuDhOVyVwMbzcw_o8t0yZ0paIxfqdgTiCXMi88YYSyuGV06fOx7NW_idWvEsvztm_ge0i77FkepJaqy3rZeNwEgU4dws7Wp6IqRmF45X4Qi3TQGBsM720Gzz3plxNbwIVZ2JweS", {
        style: function (feature) {
@@ -93,9 +135,9 @@ require(['socket.io', 'jquery', 'leaflet', 'esri-leaflet', 'jquery-ui', 'bootstr
     var getMarker = function(tweet) {
       //var marker = L.marker(tweet['latlng']);
       var marker = L.circleMarker(tweet['latlng'], {
-        radius: 5,
-        color: 'red',
-        fillColor: '#f03',
+        radius: 8,
+        color: "black",
+        fillColor: getLangColor(tweet['tweet_lang_code']),
         fillOpacity: 0.5
       });
       return marker;

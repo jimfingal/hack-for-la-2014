@@ -5,7 +5,6 @@ var gracefulshutdown = require('./gracefulshutdown');
 
 var db_name = "lahack";
 var TWEET_COLLECTION = "tweets"
-
 var local_connection = "mongodb://127.0.0.1:27017/" + db_name;
 var connection = process.env.MONGOHQ_URL || local_connection;
 
@@ -50,8 +49,15 @@ var getDB = function() {
     return db;
 };
 
+var connect = function(callback) {
+   MongoClient.connect(connection, function(err, db) {
+      callback(err, db);
+   });
+}
+
 
 module.exports.insertDocument = insertDocument;
 module.exports.insertDocIntoCollection = insertDocIntoCollection;
 module.exports.TWEET_COLLECTION = TWEET_COLLECTION;
 module.exports.getDB = getDB; // bad encapsulation
+module.exports.connect = connect;

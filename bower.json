@@ -12,6 +12,8 @@
     "jquery": "latest",
     "jquery-ui": "latest",
     "bootstrap": "~3.1.1",
-    "socket.io-client": "~0.9.16"
+    "socket.io-client": "~0.9.16",
+    "underscore": "~1.6.0",
+    "tinycolor": "~0.9.17"
   }
 }

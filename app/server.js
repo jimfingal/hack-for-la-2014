@@ -39,6 +39,11 @@ app.get('/languages', function(req, res) {
 });
 */
 
+app.get('/counts', function(req, res) {
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  res.end(JSON.stringify(languagehelper.getCounts()));
+});
+
 
 var server = http.createServer(app);
 var serverio = io.listen(server).set('log level', 2);
@@ -61,6 +66,8 @@ var minnifyTweet = function(tweet) {
  
   var abbreviatedTweet = _.pick(tweet, "id_str", "text");
   abbreviatedTweet['latlng'] = [tweet.coordinates.coordinates[1], tweet.coordinates.coordinates[0]];
+  abbreviatedTweet['tweet_lang_code'] = tweet.lang;
+  abbreviatedTweet['user_lang_code'] = tweet.user.lang;
   abbreviatedTweet['tweet_lang'] = descriptionOrCode(tweet.lang);
   abbreviatedTweet['user_lang'] = descriptionOrCode(tweet.user.lang);
   abbreviatedTweet['time_zone'] = tweet.user.time_zone;
