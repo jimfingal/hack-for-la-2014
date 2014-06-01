@@ -13,7 +13,6 @@ var insideBox = function(tweet, box) {
   return geolib.isPointInside(tweet_geo, box);
 }
 
-
 var getTweetDescription = function(tweet) {
       var msg = "Tweet [" + tweet.id + "] TL: " + tweet.user.lang + "; UL: " + tweet.lang;
       msg = msg + " [" + tweet.coordinates.coordinates[1] + "," + tweet.coordinates.coordinates[0] + "]";

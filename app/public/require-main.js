@@ -41,6 +41,19 @@ require(['socket.io', 'jquery', 'jquery-ui', 'bootstrap', 'twidgets'],
     });
 
 
+    var getTweetHtml = function(tweet) {
+
+      var result = "<h3>";
+      result = result + tweet['tweet_lang'] + "/" + tweet['user_lang'];
+      if (tweet['time_zone']) {
+        result = result + " :: " + tweet['time_zone'];
+      }
+      result = result + " [" + tweet['coordinates']['coordinates'][0] +
+              "," + tweet['coordinates']['coordinates'][1] + "]";
+      result = result + "</h3>";
+      return result;
+    }
+
     var renderTweetToPage = function(tweet) {
 
       $.ajax({
@@ -57,15 +70,7 @@ require(['socket.io', 'jquery', 'jquery-ui', 'bootstrap', 'twidgets'],
           },
           // work with the response
           success: function( data ) {
-
-            var result = "<h3>";
-            result = result + tweet['tweet_lang'] + "/" + tweet['user_lang'];
-            if (tweet['time_zone']) {
-              result = result + " :: " + tweet['time_zone'];
-            }
-            result = result + " [" + tweet['coordinates']['coordinates'][0] +
-                    "," + tweet['coordinates']['coordinates'][1] + "]";
-            result = result + "</h3>";
+            var result = getTweetHtml(tweet);
             result = result + data.html;
             $("#tweets" ).prepend(result);
           }
