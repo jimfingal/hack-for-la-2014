@@ -52,8 +52,15 @@ require(['socket.io', 'jquery', 'jquery-ui', 'bootstrap'],
           },
           // work with the response
           success: function( data ) {
-            console.log(data);
-            $("#tweets" ).prepend(data.html);
+
+            var result = "<h3>";
+            result = result + tweet['tweet_lang'] + "/" + tweet['user_lang'];
+            if (tweet['time_zone']) {
+              result = result + " :: " + tweet['time_zone'];
+            }
+            result = result + "</h3>";
+            result = result + data.html;
+            $("#tweets" ).prepend(result);
           }
       });
 
