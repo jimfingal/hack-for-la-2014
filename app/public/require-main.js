@@ -48,8 +48,7 @@ require(['socket.io', 'jquery', 'jquery-ui', 'bootstrap', 'twidgets'],
       if (tweet['time_zone']) {
         result = result + " :: " + tweet['time_zone'];
       }
-      result = result + " [" + tweet['coordinates']['coordinates'][0] +
-              "," + tweet['coordinates']['coordinates'][1] + "]";
+      result = result + " [" + tweet['latlng'][0] + "," + tweet['latlng'][1] + "]";
       result = result + "</h3>";
       return result;
     }

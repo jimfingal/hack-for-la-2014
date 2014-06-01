@@ -62,6 +62,8 @@ require(['socket.io', 'jquery', 'leaflet', 'esri-leaflet', 'jquery-ui', 'bootstr
 
     var markers = {};
 
+    var last_marker;
+
     var getStatusLink = function(username, id, text) {
       return "<a href='https://twitter.com/" + username.trim() + " /statuses/" + id + "'>" + text + "</a>";
     }
@@ -75,15 +77,26 @@ require(['socket.io', 'jquery', 'leaflet', 'esri-leaflet', 'jquery-ui', 'bootstr
       return result;
     }
 
-    var renderTweetToPage = function(tweet) {
+    var renderTweetToPage = function(tweet, last) {
       //console.log(tweet);
-      var marker = L.marker([tweet.coordinates.coordinates[1], tweet.coordinates.coordinates[0]]).addTo(map);
-      marker.bindPopup(popupText(tweet));
+      var marker = L.marker(tweet['latlng']).addTo(map);
+      map.panTo(tweet['latlng'], {
+        animate: true
+
+      });
+      
+      if (last) {
+        last.closePopup();
+      }
+      marker.bindPopup(popupText(tweet)).openPopup();
+
+      last_marker = marker;
+
       markers[tweet.id_str] = marker;
     };
 
     socket.on('tweet', function (tweet) {
-      renderTweetToPage(tweet);
+      renderTweetToPage(tweet, last_marker);
     });
               
 

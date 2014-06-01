@@ -23,11 +23,11 @@ app.configure(function() {
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
-app.get('/', function(req, res) {
+app.get('/stream', function(req, res) {
   res.render('index', { title: 'La Hack Day' });
 });
 
-app.get('/map', function(req, res) {
+app.get('/', function(req, res) {
   res.render('map', { title: 'La Hack Day' });
 });
 
@@ -38,7 +38,8 @@ var serverio = io.listen(server).set('log level', 2);
 
 var minnifyTweet = function(tweet) {
  
-  var abbreviatedTweet = _.pick(tweet, "id_str", "coordinates", "text");
+  var abbreviatedTweet = _.pick(tweet, "id_str", "text");
+  abbreviatedTweet['latlng'] = [tweet.coordinates.coordinates[1], tweet.coordinates.coordinates[0]];
   abbreviatedTweet['tweet_lang'] = tweet.lang;
   abbreviatedTweet['user_lang'] = tweet.user.lang;
   abbreviatedTweet['time_zone'] = tweet.user.time_zone;

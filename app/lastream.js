@@ -28,9 +28,17 @@ var tweetOtherThanEnglish = function(tweet) {
     return notEnOrUnd(user_lang) || notEnOrUnd(tweet_lang);
 };
 
-var qualified = function(tweet) {
-    return tweetOtherThanEnglish(tweet) && tweet.coordinates;
+var insideBox = function(tweet, box) {
+  var tweet_geo = {latitude: tweet.coordinates.coordinates[1], 
+                  longitude: tweet.coordinates.coordinates[0]};
 
+  return geolib.isPointInside(tweet_geo, box);
+}
+
+var qualified = function(tweet) {
+    return tweetOtherThanEnglish(tweet) && 
+            tweet.coordinates && 
+            insideBox(tweet, la_box);
 }
 // TODO: http://socket.io/
 
@@ -38,3 +46,4 @@ module.exports.getLAStream = getLAStream;
 module.exports.bounding_box = la_box;
 module.exports.tweetOtherThanEnglish = tweetOtherThanEnglish;
 module.exports.qualified = qualified;
+module.exports.insideBox = insideBox;
