@@ -32,6 +32,7 @@ var qualified = function(tweet) {
     return tweetOtherThanEnglish(tweet) && tweet.coordinates;
 
 }
+// TODO: http://socket.io/
 
 module.exports.getLAStream = getLAStream;
 module.exports.bounding_box = la_box;

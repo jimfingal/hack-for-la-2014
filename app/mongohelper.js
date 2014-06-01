@@ -46,7 +46,12 @@ var insertDocIntoCollection = function(collection) {
     return _.partial(insertDocument, collection);
 }
 
+var getDB = function() {
+    return db;
+};
+
 
 module.exports.insertDocument = insertDocument;
 module.exports.insertDocIntoCollection = insertDocIntoCollection;
-module.exports.TWEET_COLLECTION = TWEET_COLLECTION
+module.exports.TWEET_COLLECTION = TWEET_COLLECTION;
+module.exports.getDB = getDB; // bad encapsulation

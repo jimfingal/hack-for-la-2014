@@ -31,10 +31,6 @@ app.get('/', function(req, res) {
 var server = http.createServer(app);
 var serverio = io.listen(server).set('log level', 2);
 
-serverio.sockets.on('connection', function(socket) {  
-  console.log("Connected to socket: " + socket);
-});
-
 server.listen(app.get('port'));
 console.log('listening on port ' + app.get('port'));
 
@@ -60,6 +56,11 @@ var broadcastTweet = function(tweet) {
 
 };
 
+var broadcastTweets = function(tweets, socket) {
+  _.each(tweets, function(tweet) {
+    socket.emit('tweet', minnifyTweet(tweet));
+  });
+};
 
 var handleIncomingTweet = function(tweet) {
   if (lastream.qualified(tweet)) {
@@ -72,3 +73,14 @@ var handleIncomingTweet = function(tweet) {
 var stream_options = { locations: geohelper.getLocationFromCoords(SW, NE) };
 var stream = twitterstream.getStream(stream_options, handleIncomingTweet);
 
+
+serverio.sockets.on('connection', function(socket) {  
+  console.log("Connected to socket: " + socket);
+
+  mongohelper.getDB().collection(mongohelper.TWEET_COLLECTION).
+    find().sort([['created_at', -1]]).limit(20).toArray(function(err, documents) {
+        console.log(documents);
+        broadcastTweets(documents, socket);
+  });
+
+});
