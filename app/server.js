@@ -31,6 +31,14 @@ app.get('/', function(req, res) {
   res.render('map', { title: 'La Hack Day' });
 });
 
+/*
+app.get('/languages', function(req, res) {
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+
+  res.end(JSON.stringify(languagehelper.getLanguageMap()));
+});
+*/
+
 
 var server = http.createServer(app);
 var serverio = io.listen(server).set('log level', 2);

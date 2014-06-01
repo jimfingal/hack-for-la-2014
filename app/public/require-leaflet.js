@@ -90,9 +90,21 @@ require(['socket.io', 'jquery', 'leaflet', 'esri-leaflet', 'jquery-ui', 'bootstr
       return result;
     }
 
+    var getMarker = function(tweet) {
+      //var marker = L.marker(tweet['latlng']);
+      var marker = L.circleMarker(tweet['latlng'], {
+        radius: 5,
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.5
+      });
+      return marker;
+    }
+
     var renderTweetToPage = function(tweet, last) {
       //console.log(tweet);
-      var marker = L.marker(tweet['latlng']).addTo(map);
+      var marker = getMarker(tweet).addTo(map);
+
       map.panTo(tweet['latlng'], {
         animate: true
 
