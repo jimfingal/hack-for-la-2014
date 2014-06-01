@@ -34,11 +34,20 @@ require.config({
 });
 
 
-require(['lib/sockethelper', 'lib/map'],
-  function(sockethelper, initializeMap) {
+require(['lib/sockethelper', 'lib/map', 'jquery'],
+  function(sockethelper, initializeMap, $) {
 
     var socket = sockethelper.getSocket();
     initializeMap(socket);
-          
+
+    $('.expand').click(function() {
+      if ($("#about").hasClass('hide')) {
+        $("#about").removeClass('hide');
+      } else {
+        $("#about").addClass('hide');
+      }
+    });
+
+       
 });
 

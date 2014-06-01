@@ -116,6 +116,6 @@ var handleIncomingTweet = function(tweet) {
 };
 
 var stream_options = { locations: geohelper.getLocationFromCoords(SW, NE) };
-//var stream = twitterstream.getStream(stream_options, handleIncomingTweet);
+var stream = twitterstream.getStream(stream_options, handleIncomingTweet);
 
 

@@ -30,6 +30,13 @@ h3 {
   text-align: center;
   padding: 0.5em;
   margin:0;
+  cursor: pointer;
+  background-color: #555555;
+  color: #FFFFFF;
+}
+
+#about {
+  padding: 2em;
 }
 
 .expand, .contract {
@@ -38,15 +45,15 @@ h3 {
   background-size: 14px 14px;
 }
 .expand:hover, .contract:hover {
-  background-color: #003b61;
+  background-color: #444444;
 }
 .expand {
-  background-image: url(images/expand.png);
+  background-image: url(/images/expand.png);
   -webkit-border-radius: 4px;
   border-radius: 4px;
 }
 .contract {
-  background-image:url(images/contract.png);
+  background-image:url(/images/contract.png);
   -webkit-border-radius: 4px 4px 0 0;
   border-radius: 4px 4px 0 0;
 }

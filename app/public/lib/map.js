@@ -116,9 +116,12 @@ define(['jquery', 'leaflet', 'underscore', 'tinycolor',
         });
 
         /*
-        L.esri.featureLayer("http://services3.arcgis.com/fVH6HoncLPR9JkHX/arcgis/rest/services/LA_Neighborhoods/FeatureServer/0?token=42vjHoSzm-ODU9McyevtW4P8nfjvX8O-njT9WvWgh3y12LafHNo-K42p0TuDhOVyVwMbzcw_o8t0yZ0paIxfqdgTiCXMi88YYSyuGV06fOx7NW_idWvEsvztm_ge0i77FkepJaqy3rZeNwEgU4dws7Wp6IqRmF45X4Qi3TQGBsM720Gzz3plxNbwIVZ2JweS", {
+        L.esri.featureLayer("http://services3.arcgis.com/fVH6HoncLPR9JkHX/arcgis/rest/services/LA_Neighborhoods/FeatureServer/0", {
            style: function (feature) {
-              return { fillColor: "#70ca49"};
+              return { 
+                fillColor: "#70ca49",
+                fillOpacity: 0.5
+              };
             }
         }).addTo(map);
         */

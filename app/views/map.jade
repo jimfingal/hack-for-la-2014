@@ -15,4 +15,32 @@ html
     a(href="https://github.com/jimmytheleaf/hack-for-la-2014", target="_blank")
       img(style="z-index: 1000; position: absolute; top: 0; right: 0; border: 0;", src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png", alt="Fork me on GitHub")
     div.title-display
-      h3.title Los Angeles Linguistic Geography
+      h3(class="title expand") Los Angeles Linguistic Geography
+      div(class="hide", id="about")
+        p Los Angeles Linguistic Geography is an experiment in visualizing real-time linguistic data.
+        p Data on tweets in languages other than English are visualized based on their location. As the tweets occur in real-time, they are displayed and pop up on the map. Each color on the
+        p The focus of this project is to explore the possiblities of real-time local visualization of information and communication within a city. The next steps would be to start doing analytics on the data, to give more up-to-date information on language use in the community:
+        ul
+          li What languages are most prevalent across the city?
+          li What languages are most prevalent in neighborhoods?
+          li How do languages used on twitter correlate with census data on language spoken in the home?
+          li What languages do visitors use, vs. locals?
+          li How does language use correspond to local socio-economic trends or other demographic data?
+
+        p 
+          | Map data is sourced from Esri, using the 
+          a(href="https://github.com/Esri/esri-leaflet", target="_blank") Esri Leaflet plugin.
+        p 
+          | Linguistic data is sourced from Twitter, and is 
+          a(href="https://dev.twitter.com/docs/platform-objects/tweets", target="_blank") embedded within Tweets
+          | that are accessed via the Twitter API. The server 
+          a(href="https://dev.twitter.com/docs/api/1.1/post/statuses/filter", target="_blank") subscribes 
+          | to all tweets within the bounding box of Los Angeles, and filters to only store/display Tweets that either are tagged as in a language other than English, or whose users are configured as having a native language other than English.
+        p
+          | Source code is available at 
+          a(href="https://github.com/jimmytheleaf/hack-for-la-2014/", target="_blank") Github
+          |.
+        p
+          | All code done by 
+          a(href="http://jimfingal.com/", target="_blank") Jim Fingal
+          |.
