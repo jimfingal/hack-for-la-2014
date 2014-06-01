@@ -7,7 +7,7 @@ var db_name = "lahack";
 var TWEET_COLLECTION = "tweets"
 
 var local_connection = "mongodb://127.0.0.1:27017/" + db_name;
-var connection = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || local_connection;
+var connection = process.env.MONGOHQ_URL || local_connection;
 
 
 var MongoClient = require('mongodb').MongoClient;
