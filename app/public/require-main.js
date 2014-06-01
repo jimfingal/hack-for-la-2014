@@ -5,6 +5,8 @@ require.config({
       'jquery-ui': 'bower_components/jquery-ui/ui/jquery-ui',
       'bootstrap': 'bower_components/bootstrap/dist/js/bootstrap.min',
       'socket.io' : 'bower_components/socket.io-client/dist/socket.io.min',
+      'twidgets' : 'lib/widgets',
+
     },
     'shim': {
         'jquery': {
@@ -15,11 +17,14 @@ require.config({
         },
         'bootstrap': {
           deps: ['jquery']
+        },
+        'twidgets': {
+          exports: 'w'
         }
     },
 });
 
-require(['socket.io', 'jquery', 'jquery-ui', 'bootstrap'],
+require(['socket.io', 'jquery', 'jquery-ui', 'bootstrap', 'twidgets'],
   function(io, $) {
 
     var loc = window.location;

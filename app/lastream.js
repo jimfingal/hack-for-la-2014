@@ -28,7 +28,12 @@ var tweetOtherThanEnglish = function(tweet) {
     return notEnOrUnd(user_lang) || notEnOrUnd(tweet_lang);
 };
 
+var qualified = function(tweet) {
+    return tweetOtherThanEnglish(tweet) && tweet.coordinates;
+
+}
 
 module.exports.getLAStream = getLAStream;
 module.exports.bounding_box = la_box;
 module.exports.tweetOtherThanEnglish = tweetOtherThanEnglish;
+module.exports.qualified = qualified;

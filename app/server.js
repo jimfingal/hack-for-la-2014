@@ -62,7 +62,7 @@ var broadcastTweet = function(tweet) {
 
 
 var handleIncomingTweet = function(tweet) {
-  if (lastream.tweetOtherThanEnglish(tweet)) {
+  if (lastream.qualified(tweet)) {
     console.log("Got Tweet: " + tweet.id_str);
     mongohelper.insertDocument(mongohelper.TWEET_COLLECTION, tweet);
     broadcastTweet(tweet);
