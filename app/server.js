@@ -77,14 +77,14 @@ var minnifyTweet = function(tweet) {
 
 var broadcastTweets = function(tweets, socket) {
   _.each(tweets, function(tweet) {
-    socket.emit('tweet', minnifyTweet(tweet));
+    socket.emit('tweetbatch', minnifyTweet(tweet));
   });
 };
 
 serverio.sockets.on('connection', function(socket) {  
   
   mongohelper.getDB().collection(mongohelper.TWEET_COLLECTION).
-    find().sort([['created_at', -1]]).limit(50).toArray(function(err, documents) {
+    find().sort([['created_at', -1]]).limit(1000).toArray(function(err, documents) {
         broadcastTweets(documents, socket);
   });
   

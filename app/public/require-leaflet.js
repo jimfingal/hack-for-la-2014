@@ -146,23 +146,29 @@ require(['socket.io', 'jquery', 'leaflet', 'underscore', 'tinycolor',
     var renderTweetToPage = function(tweet, last) {
       //console.log(tweet);
       var marker = getMarker(tweet).addTo(map);
-
-      map.panTo(tweet['latlng'], {
-        animate: true
-
-      });
-      
-      if (last) {
-        last.closePopup();
-      }
-      marker.bindPopup(popupText(tweet)).openPopup();
-
-      last_marker = marker;
-
+      marker.bindPopup(popupText(tweet));
       markers[tweet.id_str] = marker;
     };
 
+    var popUpTweet = function(tweet, last) {
+
+      var marker = markers[tweet.id_str];
+      if (last) {
+        last.closePopup();
+        last_marker = marker;
+      }
+      marker.openPopup();
+      map.panTo(tweet['latlng'], {
+        animate: true
+      });
+    }
+
     socket.on('tweet', function (tweet) {
+      renderTweetToPage(tweet, last_marker);
+      popUpTweet(tweet, last_marker);
+    });
+
+    socket.on('tweetbatch', function (tweet) {
       renderTweetToPage(tweet, last_marker);
     });
               
