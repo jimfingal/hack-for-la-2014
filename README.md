@@ -1,9 +1,9 @@
-Los Angeles Linguisitc Geography
+Los Angeles Linguistic Geography
 =============
 
 ![thumb](img/thumbnail.png)
 
-For [Hack For LA 2014](http://www.hackforla.org/), my project was [Los Angeles Linguisic Geography]( http://losangeleslinguisticgeography.herokuapp.com/). I won the third prize from Esri for use of their mapping technology.
+For [Hack For LA 2014](http://www.hackforla.org/), my project was [Los Angeles Linguistic Geography]( http://losangeleslinguisticgeography.herokuapp.com/). I won the third prize from Esri for use of their mapping technology.
 
 Los Angeles Linguistic Geography is an experiment in visualizing real-time linguistic data. The focus of this project is to explore the possiblities of real-time local visualization of information and communication within a city. 
 
