@@ -4,14 +4,16 @@ var mongohelper = require('../app/mongohelper');
 
 var languagehelper = require('../app/languagehelper');
 
-//var connection = process.env.LOCAL_MONGOHQ
+var lastream = require('../app/lastream');
+
+var mongohq = process.env.LOCAL_MONGOHQ
 
 var removeLikelyFalsePositives = function(db) {
     var collection = db.collection(mongohelper.TWEET_COLLECTION);
     collection.find().toArray(function(err, documents) {
         var count = 0;
         _.each(documents, function(tweet) {
-            if (languagehelper.likelyFalsePositive(tweet)) {
+            if (!lastream.qualified(tweet)) {
                 console.log('Likely false positive: ' + tweet.text);
                 collection.remove({"_id": tweet._id}, function(err) {
                     if (err) throw err;
@@ -25,11 +27,22 @@ var removeLikelyFalsePositives = function(db) {
 
 
 // Initialize connection once
+
+/*
 MongoClient.connect(mongohelper.local_connection, function(err, database) {
   if(err) throw err;
     removeLikelyFalsePositives(database);
     console.log('Done');
 });
+*/
+
+
+MongoClient.connect(mongohq, function(err, database) {
+  if(err) throw err;
+    removeLikelyFalsePositives(database);
+    console.log('Done');
+});
+
 
 
 /*

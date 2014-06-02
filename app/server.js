@@ -77,7 +77,7 @@ var broadcastTweets = function(tweets, socket) {
 serverio.sockets.on('connection', function(socket) {  
   
   mongohelper.getDB().collection(mongohelper.TWEET_COLLECTION).
-    find().sort([['created_at', -1]]).limit(1000).toArray(function(err, documents) {
+    find().sort([['created_at', -1]]).limit(2000).toArray(function(err, documents) {
         broadcastTweets(documents, socket);
   });
   
@@ -109,6 +109,6 @@ var handleIncomingTweet = function(tweet) {
 };
 
 var stream_options = { locations: geohelper.getLocationFromCoords(SW, NE) };
-//var stream = twitterstream.getStream(stream_options, handleIncomingTweet);
+var stream = twitterstream.getStream(stream_options, handleIncomingTweet);
 
 
