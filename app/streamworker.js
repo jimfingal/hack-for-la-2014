@@ -4,19 +4,19 @@ var mongohelper = require('./mongohelper');
 var geohelper = require('./geohelper');
 var geolib = require('geolib');
 var lastream = require('./lastream');
+var languagehelper = require('./languagehelper')
 
 var getTweetDescription = function(tweet) {
       var msg = "Tweet [" + tweet.id + "] TL: " + tweet.user.lang + "; UL: " + tweet.lang;
       msg = msg + " [" + tweet.coordinates.coordinates[1] + "," + tweet.coordinates.coordinates[0] + "]";
       msg = msg + " :: " + tweet.text;
       return msg;
-}
-
+};
 
 var printGeoData = function(tweet) { 
   if (tweet.coordinates && 
       lastream.insideBox(tweet, lastream.bounding_box) && 
-      lastream.tweetOtherThanEnglish(tweet)) {
+      languagehelper.tweetOtherThanEnglish(tweet)) {
       
       console.log(getTweetDescription(tweet));
   

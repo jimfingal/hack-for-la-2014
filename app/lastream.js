@@ -2,7 +2,7 @@ var twitterstream = require('./twitterstream');
 var mongohelper = require('./mongohelper');
 var geohelper = require('./geohelper');
 var geolib = require('geolib');
-
+var languagehelper = require('./languagehelper');
 
 var NE = {latitude: 34.8233, longitude: -117.6462};
 var SW = {latitude: 32.8007, longitude: -118.9448};
@@ -16,34 +16,23 @@ var getLAStream = function(handler) {
     return stream;
 };
 
-var notEnOrUnd = function(lang) {
-    return lang !== "en" && lang !== "und";
-};
-
-var tweetOtherThanEnglish = function(tweet) {
-
-    var user_lang = tweet.user.lang;
-    var tweet_lang = tweet.lang
-
-    return notEnOrUnd(user_lang) || notEnOrUnd(tweet_lang);
-};
-
 var insideBox = function(tweet, box) {
   var tweet_geo = {latitude: tweet.coordinates.coordinates[1], 
                   longitude: tweet.coordinates.coordinates[0]};
 
   return geolib.isPointInside(tweet_geo, box);
-}
+};
 
 var qualified = function(tweet) {
-    return tweetOtherThanEnglish(tweet) && 
-            tweet.coordinates && 
-            insideBox(tweet, la_box);
-}
+    return  tweet.coordinates && 
+            languagehelper.tweetOtherThanEnglish(tweet) &&
+            insideBox(tweet, la_box) &&
+            !languagehelper.likelyFalsePositive(tweet);
+};
+
 // TODO: http://socket.io/
 
 module.exports.getLAStream = getLAStream;
 module.exports.bounding_box = la_box;
-module.exports.tweetOtherThanEnglish = tweetOtherThanEnglish;
 module.exports.qualified = qualified;
 module.exports.insideBox = insideBox;

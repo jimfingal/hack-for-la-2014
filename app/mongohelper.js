@@ -61,3 +61,4 @@ module.exports.insertDocIntoCollection = insertDocIntoCollection;
 module.exports.TWEET_COLLECTION = TWEET_COLLECTION;
 module.exports.getDB = getDB; // bad encapsulation
 module.exports.connect = connect;
+module.exports.local_connection = local_connection;

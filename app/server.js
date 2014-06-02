@@ -31,13 +31,6 @@ app.get('/', function(req, res) {
   res.render('map', { title: 'La Hack Day' });
 });
 
-/*
-app.get('/languages', function(req, res) {
-  res.setHeader('Content-Type', 'application/json; charset=utf-8');
-
-  res.end(JSON.stringify(languagehelper.getLanguageMap()));
-});
-*/
 
 app.get('/counts', function(req, res) {
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -116,6 +109,6 @@ var handleIncomingTweet = function(tweet) {
 };
 
 var stream_options = { locations: geohelper.getLocationFromCoords(SW, NE) };
-var stream = twitterstream.getStream(stream_options, handleIncomingTweet);
+//var stream = twitterstream.getStream(stream_options, handleIncomingTweet);
 
 

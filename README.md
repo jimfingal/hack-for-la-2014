@@ -5,7 +5,7 @@ la-tech-hack-2014
 
 Los Angeles Linguistic Geography is an experiment in visualizing real-time linguistic data.
 
-Data on tweets in languages other than English are visualized based on their location. As the tweets occur in real-time, they are displayed and pop up on the map. Each color on the 
+Data on tweets in languages other than English are visualized based on their location. As the tweets occur in real-time, they are displayed and pop up on the map. Each color on the map represents a differnt language.
 
 The focus of this project is to explore the possiblities of real-time local visualization of information and communication within a city. The next steps would be to start doing analytics on the data, to give more up-to-date information on language use in the community:
 
