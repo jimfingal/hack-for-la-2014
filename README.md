@@ -31,3 +31,9 @@ heroku config:set TWITTER_CONSUMER_SECRET_LAHACK="XXXX"
 heroku config:set TWITTER_ACCESS_TOKEN_LAHACK="XXXX"
 heroku config:set TWITTER_ACCESS_TOKEN_SECRET_LAHACK="XXXX"
 ```
+
+Self, don't forget before you try pushing to do:
+
+    heroku accounts:set personal
+
+
