@@ -13,7 +13,13 @@ Map data is sourced from Esri, using the [Esri Leaflet plugin](https://github.co
 
 Linguistic data is sourced from Twitter, and is embedded within Tweets that are accessed via the Twitter API. The server subscribes to all tweets within the bounding box of Los Angeles, and filters to only store/display Tweets that either are tagged as in a language other than English, or whose users are configured as having a native language other than English.
 
-It turns out that Twitter is quite bad at detecting language, to great humerous effect during my presentation. The next steps would be to filter out obvious false positives, then begin to do analytics on the data, to give more up-to-date information on language use in the community on this particular social network.
+It turns out that Twitter is quite bad at detecting language, to great humerous effect during my presentation. Steps are taken to filter out false positives:
+
+* Twitter is better at identifying languages in other character sets, so whitelist those
+* If the user and tweet language are the same, it's likely good
+* Otherwise, require a high number of tokens, with the assumption that confidence can increase with more text
+
+Next steps would be to begin to do analytics on the data, to give more up-to-date information on language use in the community on this particular social network.
 
 [The project page on Suprmasv](https://www.suprmasv.com/projects/208/los-angeles-linguistic-geography).
 

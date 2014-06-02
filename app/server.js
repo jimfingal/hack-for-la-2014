@@ -23,12 +23,14 @@ app.configure(function() {
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
+var TITLE = "Los Angeles Linguistic Geography";
+
 app.get('/stream', function(req, res) {
-  res.render('index', { title: 'La Hack Day' });
+  res.render('index', { title: TITLE });
 });
 
 app.get('/', function(req, res) {
-  res.render('map', { title: 'La Hack Day' });
+  res.render('map', { title: TITLE });
 });
 
 
