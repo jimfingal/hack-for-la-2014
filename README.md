@@ -1,5 +1,7 @@
-la-tech-hack-2014
+Los Angeles Linguisitc Geography
 =============
+
+![thumb](img/thumbnail.png)
 
 ## About
 
