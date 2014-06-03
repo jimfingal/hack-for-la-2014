@@ -230,8 +230,8 @@ Suppress-Script: Latn
 %%
 Type: language
 Subtag: es
-Description: Spanish
 Description: Castilian
+Description: Spanish
 Added: 2005-10-16
 Suppress-Script: Latn
 %%
