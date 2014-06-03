@@ -89,8 +89,7 @@ var refreshCache = function() {
   mongohelper.refreshTweetCache(cache);
 }
 
-// Wait two seconds before first
-setTimeout(refreshCache, 2 * 1000);
+refreshCache();
 setInterval(refreshCache, 300 * 1000);
 
 serverio.sockets.on('connection', function(socket) {  
