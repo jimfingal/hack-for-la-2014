@@ -103,6 +103,7 @@ define(['jquery', 'leaflet', 'underscore', 'tinycolor',
 
         refreshCounts();
 
+        // Cambridge: 42.366791, -71.106010
         var map = L.map('map').setView([34.057, -118.238], 10);
         L.esri.basemapLayer("Topographic").addTo(map);
 

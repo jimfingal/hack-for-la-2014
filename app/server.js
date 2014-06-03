@@ -25,7 +25,7 @@ app.configure(function() {
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
-var TITLE = "Los Angeles Linguistic Geography";
+var TITLE = config.geo.title + " Linguistic Geography";
 
 app.get('/stream', function(req, res) {
   res.render('index', { title: TITLE });
@@ -35,6 +35,11 @@ app.get('/', function(req, res) {
   res.render('map', { title: TITLE });
 });
 
+
+app.get('/counts', function(req, res) {
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  res.end(JSON.stringify(languagehelper.getCounts()));
+});
 
 app.get('/counts', function(req, res) {
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -78,13 +83,24 @@ var broadcastTweets = function(tweets, socket) {
   });
 };
 
+var cache = [];
+
+var refreshCache = function() {
+   mongohelper.connect(function(err, db) {
+      db.collection(config.mongo.TWEET_COLLECTION).find().sort([['created_at', -1]]).limit(2000).toArray(function(err, documents) {
+        cache = documents;
+      });
+    });
+}
+
+refreshCache();
+setInterval(refreshCache, 300 * 1000);
+
 serverio.sockets.on('connection', function(socket) {  
-  
-  mongohelper.getDB().collection(config.mongo.TWEET_COLLECTION).
-    find().sort([['created_at', -1]]).limit(2000).toArray(function(err, documents) {
-        broadcastTweets(documents, socket);
+  _.each(cache, function(tweet) {
+      var smallerTweet = minnifyTweet(tweet);
+      serverio.sockets.emit('tweetbatch', smallerTweet);
   });
-  
 });
 
 server.listen(app.get('port'));

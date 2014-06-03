@@ -22,29 +22,39 @@ config.lang.MINIMUM_TOKENS = 8;
 
 var locations = {
     "LA": {
+        "title": "Los Angeles",
         "box": {
             "NE": {
                 "latitude": 34.8233, 
                 "longitude": -117.6462
-                },
+            },
             "SW": {
                 "latitude" : 32.8007, 
                 "longitude": -118.9448
             }
         },
+        "center": {
+            "latitude" : 34.057, 
+            "longitude": -118.238
+        },
         "db" : "lahack"
     },  
 
     "BOS": {
+        "title": "Boston",
         "box": {
             "NE": {
                 "latitude": 42.424049, 
                 "longitude": -70.923042
-                },
+            },
             "SW": {
                 "latitude" : 42.202671, 
                 "longitude": -71.270477
             }
+        },
+        "center": {
+            "latitude" : 42.366791, 
+            "longitude": -71.106010
         },
         "db" : "bostontweets"
     }
@@ -61,7 +71,7 @@ config.mongo.LOCAL_MONGOHQ = process.env.LOCAL_MONGOHQ;
 
 config.mongo.TWEET_COLLECTION = "tweets";
 
-
+config.geo.title = locations[locale].title;
 config.geo.box = locations[locale].box;
 
 

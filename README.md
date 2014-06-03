@@ -38,6 +38,14 @@ heroku config:set TWITTER_ACCESS_TOKEN_LAHACK="XXXX"
 heroku config:set TWITTER_ACCESS_TOKEN_SECRET_LAHACK="XXXX"
 ```
 
+For Boston fork:
+
+```shell
+
+heroku config:set TWITTER_CONSUMER_KEY_LAHACK="XXXX" --remote boston
+... etc
+```
+
 Self, don't forget before you try pushing to do:
 
     heroku accounts:set personal
