@@ -30,10 +30,10 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/jimmytheleaf/hack-for-la-2014/"
   },
   "author": "jimmytheleaf",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/jimmytheleaf/hack-for-la-2014/issues"
   }
 }
