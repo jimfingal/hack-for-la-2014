@@ -99,22 +99,30 @@ define(['jquery', 'leaflet', 'underscore', 'tinycolor',
       });
     }
 
+
     var initializeMap = function(socket) {
 
         refreshCounts();
 
-        // Cambridge: 42.366791, -71.106010
-        var map = L.map('map').setView([34.057, -118.238], 10);
-        L.esri.basemapLayer("Topographic").addTo(map);
+        $.ajax({url: "/center"}).done(function(data) {
 
-        socket.on('tweet', function (tweet) {
+          var point = [data['latitude'], data['longitude']];
+
+          var map = L.map('map').setView(point, 10);
+          L.esri.basemapLayer("Topographic").addTo(map);
+
+          socket.on('tweet', function (tweet) {
+              renderTweetToPage(tweet, last_marker, map);
+              popUpTweet(tweet, last_marker, map);
+          });
+
+          socket.on('tweetbatch', function (tweet) {
             renderTweetToPage(tweet, last_marker, map);
-            popUpTweet(tweet, last_marker, map);
+          });
         });
 
-        socket.on('tweetbatch', function (tweet) {
-          renderTweetToPage(tweet, last_marker, map);
-        });
+        // Cambridge: 42.366791, -71.106010
+        
 
         /*
         L.esri.featureLayer("http://services3.arcgis.com/fVH6HoncLPR9JkHX/arcgis/rest/services/LA_Neighborhoods/FeatureServer/0", {

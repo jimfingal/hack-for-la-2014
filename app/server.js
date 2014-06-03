@@ -25,6 +25,7 @@ app.configure(function() {
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
+var REGION = config.geo.title;
 var TITLE = config.geo.title + " Linguistic Geography";
 
 app.get('/stream', function(req, res) {
@@ -32,7 +33,10 @@ app.get('/stream', function(req, res) {
 });
 
 app.get('/', function(req, res) {
-  res.render('map', { title: TITLE });
+  res.render('map', { 
+      title: TITLE, 
+      region: REGION 
+    });
 });
 
 
@@ -41,9 +45,9 @@ app.get('/counts', function(req, res) {
   res.end(JSON.stringify(languagehelper.getCounts()));
 });
 
-app.get('/counts', function(req, res) {
+app.get('/center', function(req, res) {
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
-  res.end(JSON.stringify(languagehelper.getCounts()));
+  res.end(JSON.stringify(config.geo.center));
 });
 
 
@@ -114,7 +118,10 @@ var handleIncomingTweet = function(tweet) {
   if (streamhelper.qualified(tweet)) {
     console.log("Got Tweet: " + tweet.id_str);
     mongohelper.insertDocument(config.mongo.TWEET_COLLECTION, tweet);
+    cache.push(tweet);
     broadcastTweet(tweet);
+  } else {
+    //console.log("Unqualified tweet: " + tweet.text);
   }
 };
 
@@ -122,6 +129,7 @@ var stream_options = {
   locations: geohelper.getLocationFromCoords(config.geo.box.SW, config.geo.box.NE) 
 };
 
+//console.log(stream_options);
 var stream = twitterstream.getStream(stream_options, handleIncomingTweet);
 
 

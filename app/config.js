@@ -38,8 +38,7 @@ var locations = {
             "longitude": -118.238
         },
         "db" : "lahack"
-    },  
-
+    }, 
     "BOS": {
         "title": "Boston",
         "box": {
@@ -73,6 +72,7 @@ config.mongo.TWEET_COLLECTION = "tweets";
 
 config.geo.title = locations[locale].title;
 config.geo.box = locations[locale].box;
+config.geo.center = locations[locale].center;
 
 
 module.exports = config;

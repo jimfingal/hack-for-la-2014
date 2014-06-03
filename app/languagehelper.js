@@ -103,7 +103,7 @@ var likelyFalsePositive = function(tweet) {
 
 // TODO put somewhere else
 refreshCounts();
-setInterval(refreshCounts, 60 * 1000);
+setInterval(refreshCounts, 600 * 1000);
 
 module.exports.getDescriptionFromCode = getDescriptionFromCode;
 module.exports.getLanguageMap = getLanguageMap;
