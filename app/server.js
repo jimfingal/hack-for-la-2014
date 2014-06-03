@@ -86,14 +86,11 @@ var broadcastTweets = function(tweets, socket) {
 var cache = [];
 
 var refreshCache = function() {
-   mongohelper.connect(function(err, db) {
-      db.collection(config.mongo.TWEET_COLLECTION).find().sort([['created_at', -1]]).limit(2000).toArray(function(err, documents) {
-        cache = documents;
-      });
-    });
+  mongohelper.refreshTweetCache(cache);
 }
 
-refreshCache();
+// Wait two seconds before first
+setTimeout(refreshCache, 2 * 1000);
 setInterval(refreshCache, 300 * 1000);
 
 serverio.sockets.on('connection', function(socket) {  

@@ -21,7 +21,6 @@ MongoClient.connect(config.mongo.CONNECTION, function(err, database) {
   if(err) throw err;
   db = database;
   gracefulshutdown.addShutdownCallback(closeConnection);
-
 });
 
 
@@ -30,7 +29,7 @@ var insertErrorCheck = function (err, inserted) {
         console.log('Error: ' + err);
         return;
     }
-}
+};
 
 var insertDocument = function(collection, doc) {
     db.collection(collection).insert(doc, insertErrorCheck);
@@ -44,14 +43,37 @@ var getDB = function() {
     return db;
 };
 
-var connect = function(callback) {
-   MongoClient.connect(config.mongo.CONNECTION, function(err, db) {
-      callback(err, db);
-   });
-}
+var refreshCountsCache = function(counts) {
+  MongoClient.connect(config.mongo.CONNECTION, function(err, database) {
+    database.collection(config.mongo.TWEET_COLLECTION).group(
+        ['lang'],
+        {},
+        { "count": 0 },
+        "function( curr, result ) { result.count++; }", 
+        function(err, results) {
+            if(err) throw err;
+            _.each(results, function(result) {
+                counts[result['lang']] = result['count'];
+            });
+            database.close();
+        });
+  });
+};
+
+var refreshTweetCache = function(cache) {
+  MongoClient.connect(config.mongo.CONNECTION, function(err, database) {
+
+    database.collection(config.mongo.TWEET_COLLECTION).find().sort([['created_at', -1]]).limit(2000).toArray(function(err, documents) {
+      console.log("Swapping cache");
+      cache.length = 0;
+      Array.prototype.push.apply(cache, documents);
+      database.close();
+    });
+  });
+};
 
 
 module.exports.insertDocument = insertDocument;
 module.exports.insertDocIntoCollection = insertDocIntoCollection;
-module.exports.getDB = getDB; // bad encapsulation
-module.exports.connect = connect;
+module.exports.refreshTweetCache = refreshTweetCache;
+module.exports.refreshCountsCache = refreshCountsCache;

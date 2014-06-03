@@ -22,27 +22,8 @@ var getLanguageMap = function() {
 }
 
 var refreshCounts = function() {
-   console.log("Refreshing counts");
-   mongohelper.connect(function(err, db) {
-        if (err) {
-            console.log(err);
-        } else {
-            var new_counts = {};
-            db.collection(config.mongo.TWEET_COLLECTION).group(
-                ['lang'],
-                {},
-                { "count": 0 },
-                "function( curr, result ) { result.count++; }", 
-                function(err, results) {
-                    if(err) throw err;
-                    _.each(results, function(result) {
-                        new_counts[result['lang']] = result['count'];
-                    });
-
-                    counts = new_counts;
-                });
-        }
-   });
+    console.log("Swapping count cache");
+    mongohelper.refreshCountsCache(counts);
 }
 
 var getCounts = function() {
