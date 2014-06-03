@@ -9,13 +9,15 @@ var express = require('express'),
 var twitterstream = require('./twitterstream');
 var mongohelper = require('./mongohelper');
 var geohelper = require('./geohelper');
-var lastream = require('./lastream');
+var streamhelper = require('./streamhelper');
 var languagehelper = require('./languagehelper');
+var config = require('./config');
+
 
 var app = express();
 
 app.configure(function() {
-  app.set('port', process.env.PORT || 3000);
+  app.set('port', config.web.PORT);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
@@ -78,7 +80,7 @@ var broadcastTweets = function(tweets, socket) {
 
 serverio.sockets.on('connection', function(socket) {  
   
-  mongohelper.getDB().collection(mongohelper.TWEET_COLLECTION).
+  mongohelper.getDB().collection(config.mongo.TWEET_COLLECTION).
     find().sort([['created_at', -1]]).limit(2000).toArray(function(err, documents) {
         broadcastTweets(documents, socket);
   });
@@ -87,12 +89,6 @@ serverio.sockets.on('connection', function(socket) {
 
 server.listen(app.get('port'));
 console.log('listening on port ' + app.get('port'));
-
-
-var NE = {latitude: 34.8233, longitude: -117.6462};
-var SW = {latitude: 32.8007, longitude: -118.9448};
-
-
 
 var broadcastTweet = function(tweet) {
 
@@ -103,14 +99,17 @@ var broadcastTweet = function(tweet) {
 
 
 var handleIncomingTweet = function(tweet) {
-  if (lastream.qualified(tweet)) {
+  if (streamhelper.qualified(tweet)) {
     console.log("Got Tweet: " + tweet.id_str);
-    mongohelper.insertDocument(mongohelper.TWEET_COLLECTION, tweet);
+    mongohelper.insertDocument(config.mongo.TWEET_COLLECTION, tweet);
     broadcastTweet(tweet);
   }
 };
 
-var stream_options = { locations: geohelper.getLocationFromCoords(SW, NE) };
+var stream_options = { 
+  locations: geohelper.getLocationFromCoords(config.geo.box.SW, config.geo.box.NE) 
+};
+
 var stream = twitterstream.getStream(stream_options, handleIncomingTweet);
 
 

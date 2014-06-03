@@ -3,8 +3,9 @@ var twitterstream = require('./twitterstream');
 var mongohelper = require('./mongohelper');
 var geohelper = require('./geohelper');
 var geolib = require('geolib');
-var lastream = require('./lastream');
-var languagehelper = require('./languagehelper')
+var streamhelper = require('./streamhelper');
+var languagehelper = require('./languagehelper');
+var config = require('./config')
 
 var getTweetDescription = function(tweet) {
       var msg = "Tweet [" + tweet.id + "] TL: " + tweet.user.lang + "; UL: " + tweet.lang;
@@ -15,7 +16,7 @@ var getTweetDescription = function(tweet) {
 
 var printGeoData = function(tweet) { 
   if (tweet.coordinates && 
-      lastream.insideBox(tweet, lastream.bounding_box) && 
+      streamhelper.insideBox(tweet, streamhelper.bounding_box) && 
       languagehelper.tweetOtherThanEnglish(tweet)) {
       
       console.log(getTweetDescription(tweet));
@@ -26,8 +27,8 @@ var printGeoData = function(tweet) {
 
 var handleIncomingTweet = function(tweet) {
     printGeoData(tweet);
-    mongohelper.insertDocument(mongohelper.TWEET_COLLECTION, tweet);
+    mongohelper.insertDocument(config.mongo.TWEET_COLLECTION, tweet);
 };
 
 
-var stream = lastream.getLAStream(handleIncomingTweet);
+var stream = streamhelper.getStream(handleIncomingTweet);

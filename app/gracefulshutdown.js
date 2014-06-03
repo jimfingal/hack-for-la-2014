@@ -1,24 +1,13 @@
 
 var _ = require('underscore');
+var config = require('./config');
 
 var callbacks = [];
-
-var SECOND_WAIT = 2;
+var shuttingdown = false;
 
 var addShutdownCallback = function(callback) {
     callbacks.push(callback);
 };
-
-var logError = function(err) {
-
-    if (err) {
-        console.log(err);
-        console.log(err.stack);
-    }
-};
-
-
-var shuttingdown = false;
 
 var gracefulShutdown = function() {
 
@@ -28,7 +17,7 @@ var gracefulShutdown = function() {
     }
     shuttingdown = true;
     console.log("Received kill signal, shutting down gracefully.");
-    console.error("Executing callbacks, closing after " + SECOND_WAIT + " seconds");
+    console.error("Executing callbacks, closing after " + config.process.SHUTDOWN_WAIT + " seconds");
 
     _.each(callbacks, function(callback) {
         callback();
@@ -37,7 +26,7 @@ var gracefulShutdown = function() {
     setTimeout(function() {
        console.error("Exiting");
        process.exit();
-    }, SECOND_WAIT * 1000);
+    }, config.process.SHUTDOWN_WAIT * 1000);
 
 };
 

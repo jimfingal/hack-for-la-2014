@@ -1,17 +1,13 @@
 
 var Twit = require('twit');
 var gracefulshutdown = require('./gracefulshutdown');
-
-var CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY_LAHACK;
-var CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET_LAHACK;
-var ACCESS_TOKEN = process.env.TWITTER_ACCESS_TOKEN_LAHACK;
-var ACCESS_TOKEN_SECRET = process.env.TWITTER_ACCESS_TOKEN_SECRET_LAHACK;
+var config = require('./config');
 
 var T = new Twit({
-    consumer_key: CONSUMER_KEY
-  , consumer_secret: CONSUMER_SECRET
-  , access_token: ACCESS_TOKEN
-  , access_token_secret: ACCESS_TOKEN_SECRET
+    consumer_key: config.twitter.CONSUMER_KEY
+  , consumer_secret: config.twitter.CONSUMER_SECRET
+  , access_token: config.twitter.ACCESS_TOKEN
+  , access_token_secret: config.twitter.ACCESS_TOKEN_SECRET
 });
 
 

@@ -2,12 +2,7 @@
 var MongoClient = require('mongodb').MongoClient;
 var _ = require('underscore');
 var gracefulshutdown = require('./gracefulshutdown');
-
-var db_name = "lahack";
-var TWEET_COLLECTION = "tweets"
-var local_connection = "mongodb://127.0.0.1:27017/" + db_name;
-var connection = process.env.MONGOHQ_URL || local_connection;
-
+var config = require('./config');
 
 var MongoClient = require('mongodb').MongoClient;
 var db;
@@ -22,7 +17,7 @@ var closeConnection = function() {
 }
 
 // Initialize connection once
-MongoClient.connect(connection, function(err, database) {
+MongoClient.connect(config.mongo.CONNECTION, function(err, database) {
   if(err) throw err;
   db = database;
   gracefulshutdown.addShutdownCallback(closeConnection);
@@ -50,7 +45,7 @@ var getDB = function() {
 };
 
 var connect = function(callback) {
-   MongoClient.connect(connection, function(err, db) {
+   MongoClient.connect(config.mongo.CONNECTION, function(err, db) {
       callback(err, db);
    });
 }
@@ -58,7 +53,5 @@ var connect = function(callback) {
 
 module.exports.insertDocument = insertDocument;
 module.exports.insertDocIntoCollection = insertDocIntoCollection;
-module.exports.TWEET_COLLECTION = TWEET_COLLECTION;
 module.exports.getDB = getDB; // bad encapsulation
 module.exports.connect = connect;
-module.exports.local_connection = local_connection;

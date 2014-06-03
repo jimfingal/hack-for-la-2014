@@ -5,7 +5,10 @@ var getLocationFromCoords = function(sw, ne) {
 }
 
 var getPoint = function(lat, lng) { 
-    return { latitude: lat, longitude: lng};
+    return { 
+        latitude: lat, 
+        longitude: lng
+    };
 };
 
 var getBoundingBoxArray = function(sw, ne) {
@@ -16,8 +19,6 @@ var getBoundingBoxArray = function(sw, ne) {
         getPoint(sw.latitude, sw.longitude)
     ];
 };
-
-
 
 module.exports.getLocationFromCoords = getLocationFromCoords;
 module.exports.getBoundingBoxArray = getBoundingBoxArray;

@@ -2,6 +2,7 @@ var language_data = require('../data/languages.json');
 var _ = require('underscore');
 var mongohelper = require('./mongohelper');
 var twittertexthelper = require('./twittertexthelper');
+var config = require('./config');
 
 var code_to_description = {};
 var counts = {};
@@ -27,7 +28,7 @@ var refreshCounts = function() {
             console.log(err);
         } else {
             var new_counts = {};
-            db.collection(mongohelper.TWEET_COLLECTION).group(
+            db.collection(config.mongo.TWEET_COLLECTION).group(
                 ['lang'],
                 {},
                 { "count": 0 },
@@ -47,7 +48,6 @@ var refreshCounts = function() {
 var getCounts = function() {
     return _.clone(counts);
 }
-
 
 
 var notEnOrUnd = function(lang) {
@@ -95,8 +95,6 @@ var languageAndUserMatch = function(tweet) {
   return tweet.lang === tweet.user.lang;
 
 };
-
-var MINIMUM_TOKENS = 8;
 
 var likelyFalsePositive = function(tweet) {
 
