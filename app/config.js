@@ -17,7 +17,6 @@ config.twitter.ACCESS_TOKEN_SECRET = process.env.TWITTER_ACCESS_TOKEN_SECRET_LAH
 
 config.process.SHUTDOWN_WAIT = 2;
 
-config.lang.MINIMUM_TOKENS = 8;
 
 
 var locations = {
@@ -37,7 +36,8 @@ var locations = {
             "latitude" : 34.057, 
             "longitude": -118.238
         },
-        "db" : "lahack"
+        "db" : "lahack",
+        "minimum_tokens": 8
     }, 
     "BOS": {
         "title": "Boston",
@@ -55,12 +55,15 @@ var locations = {
             "latitude" : 42.366791, 
             "longitude": -71.106010
         },
-        "db" : "bostontweets"
+        "db" : "bostontweets",
+        "minimum_tokens" : 6
     }
 };
 
-
 var locale = process.env.LANGHACK_LOCALE || "LA";
+
+config.lang.MINIMUM_TOKENS = locations[locale].minimum_tokens;
+
 
 var DB_NAME = locations[locale].db;
 

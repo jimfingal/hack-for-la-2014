@@ -93,7 +93,7 @@ var likelyFalsePositive = function(tweet) {
   
   var clean_text = twittertexthelper.removeAllTwitterEntities(tweet.text);
   clean_text = clean_text.replace(/\s{2,}/g, ' ').trim();
-  if (clean_text.split(' ').length < MINIMUM_TOKENS) {
+  if (clean_text.split(' ').length < config.lang.MINIMUM_TOKENS) {
     return true;
   } else {
     return false;
