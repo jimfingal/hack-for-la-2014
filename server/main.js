@@ -14,15 +14,26 @@ var languagehelper = require('./languagehelper');
 var config = require('./config');
 
 
+var getFilePath = function(url) {
+  var filePath = './app' + url;
+  if (url == '/' ) filePath = './app/index.html';
+  console.log("url: " + url)
+  return filePath;
+}
+
+
+var base_dir =  __dirname + '../dist/'
+
+
 var app = express();
 
 app.configure(function() {
   app.set('port', config.web.PORT);
-  app.set('views', __dirname + '/views');
+  app.set('views', base_dir + 'views');
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
   app.use(app.router);
-  app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.static(base_dir));
 });
 
 var REGION = config.geo.title;

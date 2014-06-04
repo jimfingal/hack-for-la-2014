@@ -83,7 +83,7 @@ config.geo.title = locations[locale].title;
 config.geo.box = locations[locale].box;
 config.geo.mapconfig = locations[locale].mapconfig;
 
-config.twitter.ENABLE_STREAM = true;
+config.twitter.ENABLE_STREAM = false;
 
 
 module.exports = config;
