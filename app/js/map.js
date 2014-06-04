@@ -2,10 +2,9 @@
 var $ = require('jquery');
 var L = require('leaflet');
 var _ = require('underscore');
-var tinycolor = require('tinycolor');
-require('esri-leaflet');
-require('jquery-ui');
-require('bootstrap');
+var tinycolor = require('tinycolor2');
+require('./esri-leaflet');
+var jqueryui = require('jquery-ui');
 
 
 var language_count = {};

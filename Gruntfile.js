@@ -1,21 +1,30 @@
-module.exports = funciton(grunt) {
+module.exports = function(grunt) {
   grunt.initConfig({
     clean: ['dist/'],
     browserify: {
       'dist/js/index.js': ['app/js/index.js']
     },
-    copy: {
-      main: {
-        src: 'app/**',
-        dest: 'dist/',
-        expand: true
+    copyto: {
+      stuff: {
+        files: [
+          {
+            cwd: 'app/', 
+            src: ['**/*'], 
+            dest: 'dist/'
+          }
+        ],
+        options: {
+          ignore: [
+            'app/js/**'
+          ]
+        }
       }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-copy-to');
   grunt.loadNpmTasks('grunt-browserify');
 
-  grunt.registerTask('default', ['clean', 'browserify', 'rework', 'copy']);
+  grunt.registerTask('default', ['clean', 'copyto', 'browserify']);
 };
