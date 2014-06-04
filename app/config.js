@@ -32,9 +32,12 @@ var locations = {
                 "longitude": -118.9448
             }
         },
-        "center": {
-            "latitude" : 34.057, 
-            "longitude": -118.238
+        "mapconfig": {
+            "center": {
+                "latitude" : 34.057, 
+                "longitude": -118.238
+            },
+            "zoom": 10
         },
         "db" : "lahack",
         "minimum_tokens": 8
@@ -51,9 +54,12 @@ var locations = {
                 "longitude": -71.270477
             }
         },
-        "center": {
-            "latitude" : 42.366791, 
-            "longitude": -71.106010
+        "mapconfig": {
+            "center": {
+                "latitude" : 42.346791, 
+                "longitude": -71.0706010
+            }, 
+            "zoom": 12
         },
         "db" : "bostontweets",
         "minimum_tokens" : 6
@@ -75,7 +81,9 @@ config.mongo.TWEET_COLLECTION = "tweets";
 
 config.geo.title = locations[locale].title;
 config.geo.box = locations[locale].box;
-config.geo.center = locations[locale].center;
+config.geo.mapconfig = locations[locale].mapconfig;
+
+config.twitter.ENABLE_STREAM = true;
 
 
 module.exports = config;

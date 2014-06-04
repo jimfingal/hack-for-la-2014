@@ -104,11 +104,11 @@ define(['jquery', 'leaflet', 'underscore', 'tinycolor',
 
         refreshCounts();
 
-        $.ajax({url: "/center"}).done(function(data) {
+        $.ajax({url: "/mapconfig"}).done(function(mapconfig) {
 
-          var point = [data['latitude'], data['longitude']];
+          var point = [mapconfig['center']['latitude'], mapconfig['center']['longitude']];
 
-          var map = L.map('map').setView(point, 10);
+          var map = L.map('map').setView(point, mapconfig['zoom']);
           L.esri.basemapLayer("Topographic").addTo(map);
 
           socket.on('tweet', function (tweet) {

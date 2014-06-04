@@ -45,9 +45,9 @@ app.get('/counts', function(req, res) {
   res.end(JSON.stringify(languagehelper.getCounts()));
 });
 
-app.get('/center', function(req, res) {
+app.get('/mapconfig', function(req, res) {
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
-  res.end(JSON.stringify(config.geo.center));
+  res.end(JSON.stringify(config.geo.mapconfig));
 });
 
 
@@ -130,6 +130,12 @@ var stream_options = {
 };
 
 //console.log(stream_options);
-var stream = twitterstream.getStream(stream_options, handleIncomingTweet);
+var stream;
 
+if (config.twitter.ENABLE_STREAM) {
+  console.log("Creating Stream");
+  stream = twitterstream.getStream(stream_options, handleIncomingTweet);
+} else {
+  console.log("Stream disabled");
+}
 
