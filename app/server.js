@@ -14,27 +14,15 @@ var languagehelper = require('./languagehelper');
 var config = require('./config');
 
 
-var getFilePath = function(url) {
-  var filePath = './app' + url;
-  if (url == '/' ) filePath = './app/index.html';
-  console.log("url: " + url)
-  return filePath;
-}
-
-
-var base_dir =  path.join(__dirname,'../dist/')
-
-console.log(base_dir);
-
 var app = express();
 
 app.configure(function() {
   app.set('port', config.web.PORT);
-  app.set('views', path.join(base_dir, 'views'));
+  app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
   app.use(app.router);
-  app.use(express.static(base_dir));
+  app.use(express.static(path.join(__dirname, 'public')));
 });
 
 var REGION = config.geo.title;
@@ -64,7 +52,7 @@ app.get('/mapconfig', function(req, res) {
 
 
 var server = http.createServer(app);
-var serverio = io.listen(server);
+var serverio = io.listen(server).set('log level', 2);
 
 
 var descriptionOrCode = function(code) {
