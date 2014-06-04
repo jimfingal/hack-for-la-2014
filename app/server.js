@@ -52,7 +52,7 @@ app.get('/mapconfig', function(req, res) {
 
 
 var server = http.createServer(app);
-var serverio = io.listen(server).set('log level', 2);
+var serverio = io.listen(server);
 
 
 var descriptionOrCode = function(code) {
