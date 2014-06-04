@@ -35,5 +35,33 @@ var getStream = function(stream_options, tweet_callback) {
 
 };
 
+
+var getGeocode = function(lat, lon, rad) {
+    return lat + "," + lon + "," + rad;
+};
+
+var searchGeo = function(query, latitude, longitude, radius, handler, max_id, lang) {
+
+    var options = {q: query,
+      geocode: getGeocode(latitude, longitude, radius), 
+      count: 100,
+      result_type: 'recent',
+      include_entities: 'false'
+    };
+
+    if (max_id) {
+      options['max_id'] = max_id;
+    }
+
+    if (lang) {
+      options['lang'] = lang;
+    }
+
+    console.log(options);
+
+    T.get('search/tweets', options, handler);
+};
+
 module.exports.getStream = getStream;
+module.exports.searchGeo = searchGeo;
 

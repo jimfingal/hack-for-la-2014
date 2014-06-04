@@ -3,8 +3,7 @@ var _ = require('underscore');
 var mongohelper = require('../app/mongohelper');
 var config = require('../app/config');
 
-
-MongoClient.connect(connection, function(err, db) {
+MongoClient.connect(config.mongo.LOCAL_MONGOHQ, function(err, db) {
   if(err) throw err;
   db.collection(config.mongo.TWEET_COLLECTION).find().toArray(function(err, documents) {
       if(err) throw err;
@@ -13,6 +12,7 @@ MongoClient.connect(connection, function(err, db) {
       });
 
       console.log("Documents inserted");
+      db.close();
       process.exit();
   });
 });

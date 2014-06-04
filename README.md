@@ -30,7 +30,7 @@ Next steps would be to begin to do analytics on the data, to give more up-to-dat
 heroku create losangeleslinguisticgeography
 heroku config:add BUILDPACK_URL=https://github.com/heroku/heroku-buildpack-nodejs
 heroku labs:enable websockets
-heroku addons:add mongolab
+heroku addons:add mongohq
 
 heroku config:set TWITTER_CONSUMER_KEY_LAHACK="XXXX"
 heroku config:set TWITTER_CONSUMER_SECRET_LAHACK="XXXX"
