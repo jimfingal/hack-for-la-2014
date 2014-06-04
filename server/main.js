@@ -14,15 +14,18 @@ var languagehelper = require('./languagehelper');
 var config = require('./config');
 
 
+var base_dir = path.join(__dirname, '/../app/')
+console.log(base_dir);
+
 var app = express();
 
 app.configure(function() {
   app.set('port', config.web.PORT);
-  app.set('views', __dirname + '/views');
+  app.set('views', path.join(base_dir + 'views'));
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
   app.use(app.router);
-  app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.static(path.join(base_dir, 'public')));
 });
 
 var REGION = config.geo.title;
