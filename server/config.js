@@ -24,41 +24,41 @@ var locations = {
         "title": "Los Angeles",
         "box": {
             "NE": {
-                "latitude": 34.8233, 
+                "latitude": 34.8233,
                 "longitude": -117.6462
             },
             "SW": {
-                "latitude" : 32.8007, 
+                "latitude" : 32.8007,
                 "longitude": -118.9448
             }
         },
         "mapconfig": {
             "center": {
-                "latitude" : 34.057, 
+                "latitude" : 34.057,
                 "longitude": -118.238
             },
             "zoom": 10
         },
         "db" : "lahack",
         "minimum_tokens": 8
-    }, 
+    },
     "BOS": {
         "title": "Boston",
         "box": {
             "NE": {
-                "latitude": 42.424049, 
+                "latitude": 42.424049,
                 "longitude": -70.923042
             },
             "SW": {
-                "latitude" : 42.202671, 
+                "latitude" : 42.202671,
                 "longitude": -71.270477
             }
         },
         "mapconfig": {
             "center": {
-                "latitude" : 42.346791, 
+                "latitude" : 42.346791,
                 "longitude": -71.0706010
-            }, 
+            },
             "zoom": 12
         },
         "db" : "bostontweets",
