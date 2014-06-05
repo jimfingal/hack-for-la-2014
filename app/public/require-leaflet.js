@@ -8,6 +8,7 @@ require.config({
       'twidgets' : 'lib/widgets',
       'leaflet': "http://cdn.leafletjs.com/leaflet-0.7.3/leaflet",
       'esri-leaflet': "lib/esri-leaflet",
+      'clusterfck': "lib/clusterfck",
       'underscore' : 'bower_components/underscore/underscore',
       'tinycolor' : 'bower_components/tinycolor/tinycolor'
     },
@@ -27,9 +28,12 @@ require.config({
         'leaflet': {
             exports: 'L'
         },
+        'clusterfck': {
+            exports: 'clusterfck'
+        },
         'esri-leaflet': {
           deps: ['leaflet']
-        },
+        }
     },
     'waitSeconds' : 0
 });
@@ -49,6 +53,5 @@ require(['lib/sockethelper', 'lib/map', 'jquery'],
       }
     });
 
-       
 });
 
