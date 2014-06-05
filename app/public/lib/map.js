@@ -1,10 +1,12 @@
-define(['jquery', 'leaflet', 'underscore', 'tinycolor',
+define(['jquery', 'leaflet', 'underscore', 'tinycolor', 'clusterfck',
           'esri-leaflet', 'jquery-ui', 'bootstrap'],
-          function($, L, _, tinycolor) {
+          function($, L, _, tinycolor, clusterfck) {
 
     var language_count = {};
     var code_to_color = {};
     var marker_layers = {};
+
+    var cluster_layer = new L.LayerGroup();
     var layers_control = L.control.layers({}, marker_layers, {'position': 'bottomleft'});
 
     var sortedCounts = function() {
@@ -118,6 +120,75 @@ define(['jquery', 'leaflet', 'underscore', 'tinycolor',
       });
     };
 
+    var averagePoint = function(array_of_points) {
+
+      var totals = _.reduce(array_of_points,
+                            function(memo, r) { return [memo[0] + r[0], memo[1] + r[1]]; },
+                            [0 , 0]);
+      return [totals[0] / array_of_points.length, totals[1] / array_of_points.length];
+
+    };
+
+
+    var drawPointAndLines = function(layer_group, point, list_of_points, color) {
+      var marker = L.circleMarker(point, {
+        radius: 5,
+        color: "black",
+        fillColor: "black",
+        fillOpacity: 0.1
+      });
+
+      layer_group.addLayer(marker);
+
+      _.each(list_of_points, function(point_to) {
+
+        var polyline = L.polyline([
+                                    marker.getLatLng(), 
+                                    L.latLng(point_to[0], point_to[1])
+                                   ], 
+                                  {
+                                    color: 'black', 
+                                    weight: 1, 
+                                    opacity: 0.9
+                                });
+        layer_group.addLayer(polyline);
+
+      });
+    };
+
+    var recalculateClusters = function() {
+
+      cluster_layer.clearLayers();
+      console.log("Recalculate");
+
+      _.each(_.pairs(marker_layers), function(pair) {
+          var key = pair[0];
+          var marker_group = pair[1];
+          var markers = marker_group.getLayers();
+
+          if (markers.length > 1) {
+            var points = [];
+            _.each(markers, function(marker) {
+              //console.log(layer);
+              points.push([marker.getLatLng().lat, marker.getLatLng().lng]);
+            });
+            //console.log(points);
+
+            var language_clusters = clusterfck.kmeans(points, 7);
+
+            _.each(language_clusters, function(cluster) {
+
+                if (cluster.length > 3) {
+                  //console.log("Cluster: " + cluster);
+                  var average_point = averagePoint(cluster);
+                  //console.log("Average Point: " + average_point);
+                  drawPointAndLines(marker_group, average_point, cluster, code_to_color[key]);
+                }
+            });
+          }
+      });
+    };
+
 
     var initializeMap = function(socket) {
 
@@ -139,7 +210,24 @@ define(['jquery', 'leaflet', 'underscore', 'tinycolor',
             renderTweetToPage(tweet, last_marker, map);
           });
 
+          //layers_control.addOverlay(cluster_layer, "Cluster Data");
           layers_control.addTo(map);
+
+        });
+
+        $("#cluster-button").click(function() {
+          recalculateClusters();
+        });
+
+        var toggled = true;
+        $("#toggle-button").click(function() {
+           if (toggled) {
+              $("input:checkbox").removeAttr('checked');
+           } else {
+              $("input:checkbox").prop('checked', true);
+           }
+           toggled = !toggled;
+           $("input:checkbox").trigger('click');
 
         });
 
