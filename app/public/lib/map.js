@@ -1,13 +1,15 @@
 define(['jquery', 'leaflet', 'underscore', 'tinycolor',
-          'esri-leaflet', 'jquery-ui', 'bootstrap'], 
+          'esri-leaflet', 'jquery-ui', 'bootstrap'],
           function($, L, _, tinycolor) {
 
     var language_count = {};
     var code_to_color = {};
+    var marker_layers = {};
+    var layers_control = L.control.layers({}, marker_layers, {'position': 'bottomleft'});
 
     var sortedCounts = function() {
       return _.sortBy(_.pairs(language_count), function(array) { return array[1]; }).reverse();
-    }
+    };
 
     var refreshColors = function() {
 
@@ -28,27 +30,29 @@ define(['jquery', 'leaflet', 'underscore', 'tinycolor',
         language_count = data;
         refreshColors();
       });
-    }
+    };
 
     var getLangColor = function(code) {
-      if(code_to_color[code]) {
+      if (code_to_color[code]) {
         return code_to_color[code];
       } else {
         return "#f03";
       }
-    }
+    };
 
     var markers = {};
 
     var last_marker;
 
     var getStatusLink = function(username, id, text) {
-      return "<a target='_blank' href='https://twitter.com/" + username.trim() + " /statuses/" + id + "'>" + text + "</a>";
-    }
+      return "<a target='_blank' href='https://twitter.com/" +
+                    username.trim() + " /statuses/" + id + "'>" +
+                    text + "</a>";
+    };
 
     var notEnglish = function(desc) {
       return desc !== 'English';
-    }
+    };
 
     var getLanguageDisplay = function(tweet) {
       var descriptions = [];
@@ -59,14 +63,14 @@ define(['jquery', 'leaflet', 'underscore', 'tinycolor',
         descriptions.push("U: " + tweet['user_lang']);
       }
       return descriptions.join(' / ');
-    }
+    };
 
     var popupText = function(tweet) {
       var result = "<b>" + getLanguageDisplay(tweet) + "</b><br/>";
       result = result + tweet['text'] + "<br/>";
       result = result + getStatusLink(tweet['screen_name'], tweet['id_str'], tweet['screen_name']);
       return result;
-    }
+    };
 
     var getMarker = function(tweet) {
       //var marker = L.marker(tweet['latlng']);
@@ -77,13 +81,28 @@ define(['jquery', 'leaflet', 'underscore', 'tinycolor',
         fillOpacity: 0.5
       });
       return marker;
-    }
+    };
 
     var renderTweetToPage = function(tweet, last, map) {
       //console.log(tweet);
-      var marker = getMarker(tweet).addTo(map);
+      var lang_code = tweet['tweet_lang_code'];
+      var language = tweet['tweet_lang'];
+
+      var marker = getMarker(tweet);
       marker.bindPopup(popupText(tweet));
       markers[tweet.id_str] = marker;
+
+
+      if (! _.has(marker_layers, lang_code)) {
+        marker_layers[lang_code] = new L.LayerGroup();
+        map.addLayer(marker_layers[lang_code]);
+        // Seems like it should be easier
+        layers_control.addOverlay(marker_layers[lang_code], language);
+      }
+
+      marker.addTo(marker_layers[lang_code]);
+
+
     };
 
     var popUpTweet = function(tweet, last, map) {
@@ -97,7 +116,7 @@ define(['jquery', 'leaflet', 'underscore', 'tinycolor',
       map.panTo(tweet['latlng'], {
         animate: true
       });
-    }
+    };
 
 
     var initializeMap = function(socket) {
@@ -111,18 +130,20 @@ define(['jquery', 'leaflet', 'underscore', 'tinycolor',
           var map = L.map('map').setView(point, mapconfig['zoom']);
           L.esri.basemapLayer("Topographic").addTo(map);
 
-          socket.on('tweet', function (tweet) {
+          socket.on('tweet', function(tweet) {
               renderTweetToPage(tweet, last_marker, map);
               popUpTweet(tweet, last_marker, map);
           });
 
-          socket.on('tweetbatch', function (tweet) {
+          socket.on('tweetbatch', function(tweet) {
             renderTweetToPage(tweet, last_marker, map);
           });
+
+          layers_control.addTo(map);
+
         });
 
         // Cambridge: 42.366791, -71.106010
-        
 
         /*
         L.esri.featureLayer("http://services3.arcgis.com/fVH6HoncLPR9JkHX/arcgis/rest/services/LA_Neighborhoods/FeatureServer/0", {
@@ -135,9 +156,8 @@ define(['jquery', 'leaflet', 'underscore', 'tinycolor',
         }).addTo(map);
         */
 
-    }
+    };
 
-   
     return initializeMap;
 
 });
