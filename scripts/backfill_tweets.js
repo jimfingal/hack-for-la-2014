@@ -1,8 +1,8 @@
-var twitterstream = require('../app/twitterstream');
-var streamhelper = require('../app/streamhelper');
+var twitterstream = require('../server/twitterstream');
+var streamhelper = require('../server/streamhelper');
 var _ = require('underscore');
-var mongohelper = require('../app/mongohelper');
-var config = require('../app/config');
+var mongohelper = require('../server/mongohelper');
+var config = require('../server/config');
 
 
 var Q = '';

@@ -1,12 +1,12 @@
 var MongoClient = require('mongodb').MongoClient;
 var _ = require('underscore');
-var mongohelper = require('../app/mongohelper');
+var mongohelper = require('../server/mongohelper');
 
-var languagehelper = require('../app/languagehelper');
+var languagehelper = require('../server/languagehelper');
 
-var streamhelper = require('../app/streamhelper');
-var mongohelper = require('../app/mongohelper');
-var config = require('../app/config');
+var streamhelper = require('../server/streamhelper');
+var mongohelper = require('../server/mongohelper');
+var config = require('../server/config');
 
 
 var removeLikelyFalsePositives = function(db) {
